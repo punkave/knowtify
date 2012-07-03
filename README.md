@@ -1,4 +1,4 @@
 knowtify
 ========
 
-A one-page status site
+A status site
