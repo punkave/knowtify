@@ -1,0 +1,16 @@
+{
+  "name": "knowtify",
+  "version": "0.0.0",
+  "description": "A status site",
+  "engines": {
+    "node": "0.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gsf/knowtify.git"
+  },
+  "dependencies": {
+    "whiskers": "0.2.3",
+    "choreographer": "git://github.com/gsf/choreographer.git"
+  }
+}
