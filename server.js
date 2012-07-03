@@ -10,4 +10,6 @@ http.createServer(function(req, res) {
     res.end(whiskers.render(template, context))
   }
   routes(req, res)
-}).listen(port)
+}).listen(port, function() {
+  console.log('Listening on '+port)
+})
