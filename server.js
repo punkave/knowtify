@@ -3,7 +3,7 @@ var http = require('http')
 var routes = require('./routes')
 var whiskers = require('whiskers')
 
-var port = process.env.PORT || 8080
+var port = process.env.PORT || 5000
 
 http.createServer(function(req, res) {
   res.render = function(filename, context) {
