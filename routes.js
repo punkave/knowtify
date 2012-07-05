@@ -3,13 +3,22 @@ var querystring = require('querystring')
 var router = require('choreographer').router()
 
 router.get('/', function(req, res) {
-  res.render('index.html', {title: 'Status'})
+  req.session.get('auth', function(err, auth) {
+    res.render('index.html', {title: 'Status', auth: auth})
+  })
 })
 
 router.get('/login', function(req, res) {
-  req.session.get('flash', function(err, flash) {
-    req.session.del('flash')
-    res.render('login.html', {flash: flash})
+  req.session.get('auth', function(err, auth) {
+    if (auth) {
+      res.writeHead(303, {Location: '/'})
+      res.end()
+    } else {
+      req.session.get('flash', function(err, flash) {
+        req.session.del('flash')
+        res.render('login.html', {flash: flash})
+      })
+    }
   })
 })
 
