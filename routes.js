@@ -1,3 +1,4 @@
+var db = require ('./db')
 var querystring = require('querystring')
 var router = require('choreographer').router()
 
@@ -6,21 +7,38 @@ router.get('/', function(req, res) {
 })
 
 router.get('/login', function(req, res) {
-  res.render('login.html')
+  req.session.get('flash', function(err, flash) {
+    req.session.del('flash')
+    res.render('login.html', {flash: flash})
+  })
 })
 
 router.post('/login', function(req, res) {
-  var data = '';
+  var body = '';
   req.setEncoding('utf8')
   req.on('data', function(chunk) {
-    data += chunk
+    body += chunk
   })
   req.on('end', function() {
-    var body = querystring.parse(data)
-    console.log(body)
+    var form = querystring.parse(body)
+    db.auth(form.username, form.password, function(err) {
+      if (err) {
+        req.session.set('flash', 'Incorrect username or password.')
+        res.writeHead(303, {Location: '/login'})
+        return res.end()
+      }
+      req.session.set('auth', {username: form.username})
+      res.writeHead(303, {Location: '/'})
+      res.end()
+    })
   })
-  res.writeHead(303, {Location: '/login'})
-  res.end()
+})
+
+router.get('/logout', function(req, res) {
+  req.session.del('auth', function (err) {
+    res.writeHead(303, {Location: '/'})
+    res.end()
+  })
 })
 
 module.exports = function() {

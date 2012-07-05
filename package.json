@@ -2,16 +2,21 @@
   "name": "knowtify",
   "version": "0.0.0",
   "description": "A status site",
+  "homepage": "https://github.com/punkave/knowtify.git",
   "engines": {
     "node": "0.8.1",
     "npm": "1.1.1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gsf/knowtify.git"
+    "url": "https://github.com/punkave/knowtify.git"
   },
   "dependencies": {
-    "whiskers": "0.2.3",
-    "choreographer": "git://github.com/gsf/choreographer.git"
+    "choreographer": "git://github.com/gsf/choreographer.git",
+    "cookies": "0.3.0",
+    "keygrip": "0.2.1",
+    "redis": "0.7.2",
+    "redsess": "git://github.com/eivindfjeldstad/redsess.git#40ad5c35f025f85158bd364c5551603e91957abb",
+    "whiskers": "0.2.3"
   }
 }
