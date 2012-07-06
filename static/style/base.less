@@ -1,19 +1,182 @@
+//@import 'utils.less';
+
 @base: #f938ab;
+@red:rgb(225,25,30);
+@green:rgb(30,205,70);
+@offwhite:rgb(240,240,240);
+@gray-light:rgb(200,200,200);
+@gray-dark:rgb(110,110,110);
+@gray-darkest:rgb(80,80,80);
 
-aside {
-  float: right
+* { margin: 0; padding: 0; font-weight: normal; } // Safari seems to ignore a lot of the reset style sheet and I am not sure why.
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+:focus { outline: 0; } // remember to define focus styles!
+ins { text-decoration: none; } // remember to highlight inserts somehow!
+del { text-decoration: line-through; }
+table { border-collapse: separate; border-spacing: 0; } // tables still need 'cellspacing="0"' in the markup
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+
+body
+{
+  font-family: georgia;
+  h1 {font-weight: bold;}
+  h1,h2,h3 {font-style: italic;}
+  h1,h2 {color: @offwhite;}
 }
 
-.box-shadow(@style, @c) when (iscolor(@c)) {
-  box-shadow:         @style @c;
-  -webkit-box-shadow: @style @c;
-  -moz-box-shadow:    @style @c;
-}
-.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
-  .box-shadow(@style, rgba(0, 0, 0, @alpha));
-}
-.box { 
-  color: saturate(@base, 5%);
-  border-color: lighten(@base, 30%);
-  div { .box-shadow(0 0 5px, 30%) }
-}
+.wrapper
+{
+  .header-container
+  {
+    width: 100%;
+
+    .header-inner
+    {
+      .global-status-container
+      {
+        position: relative;
+        z-index: 10;
+        background-color: @green;
+        height: 140px;
+        -webkit-box-shadow:0px 5px 8px rgba(0,0,0,0.3);
+
+        &.warning
+        {
+          background-color: @red;
+        }
+
+        .global-status
+        {
+          width: 960px;
+          margin: 0 auto;
+          line-height: 135px;
+          font-size: 54px;
+        }
+      }
+
+      .sites-container
+      {
+        position: relative;
+        top: 0;
+        z-index: 9;
+        min-height: 140px;
+        background-color:@gray-dark;
+        -webkit-box-shadow:0px 5px 8px rgba(0,0,0,0.3);
+        .sites
+        {
+          width: 960px;
+          margin: 0 auto;
+          padding-top: 25px;
+
+          .site-column
+          {
+            float: left;
+            width: 22%;
+            margin-right: 3%;
+            list-style: none;
+
+            .site
+            {
+              color: @offwhite;
+              font-style: italic;
+              margin-bottom: 5px;
+              background-image: url('/img/check.png');
+              background-repeat: no-repeat;
+              background-position: 0px 2px;
+              text-indent: 25px;
+              letter-spacing: 1px;
+
+              &.warning
+              {
+                background-image: url('/img/x.png');
+              }
+            }
+          }
+        }
+      }//sites-container
+
+      .admin-bar-container
+      {
+        background: @gray-darkest;
+        min-height: 30px;
+        .admin-bar
+        {
+          width: 960px;
+          margin: 0 auto;
+        }
+      }
+    }
+  } //header
+
+  .content
+  {
+    width: 960px;
+    margin: 0 auto;
+    margin-top: 60px;
+    .column
+    {
+      float: left;
+      &.column-left
+      {
+        width: 55%;
+        margin-right: 10%;
+
+        .notification
+        {
+          float: left;
+          clear:both;
+          width: 100%;
+          border-top: 2px solid @gray-darkest;
+          margin-bottom: 50px;
+          .notification-header
+          {
+            float: left;
+            .date
+            {
+              background:@gray-darkest;
+              float: left;
+              padding: 5px 10px 10px 10px;
+              color: @offwhite;
+              margin-right: 10px;
+
+            }
+
+            .title
+            {
+              float: left;
+              margin-top: 7px;
+              font-style: italic;
+              font-weight: bold;
+              color: @gray-darkest;
+            }
+
+          }
+
+          .notification-body
+          {
+            float: left;
+            clear: both;
+            margin-top: 12px;
+            line-height: 24px;
+            color: @gray-darkest;
+
+          }
+        }
+      }
+
+      &.column-right
+      {
+        width: 35%;
+
+        .info-blurb
+        {
+          width: 90%;
+          padding: 5%;
+          min-height: 200px;
+          border: 2px dashed @gray-light;
+        }
+      }
+    } //column
+  } //content
+} //wrapper

@@ -1,0 +1,32 @@
+// Mixins
+// -------------------------------------
+
+.border-radius(radius:5px;)
+{
+  -webkit-border-radius: radius;
+  -moz-border-radius: radius;
+  border-radius: radius;
+}
+
+.box-shadow(shadow:0px 0px 10px rgba(0,0,0,0.15);)
+{
+  -moz-box-shadow:shadow;
+  -webkit-box-shadow:shadow;
+  -khtml-box-shadow:shadow;
+  box-shadow:shadow;
+}
+
+.no-user-select
+{
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.transition(time:0.15s; ease:ease; property:all)
+{
+  -webkit-transition: property time ease;
+  -moz-transition: property time ease;
+  -o-transition: property time ease;
+  transition: property time ease;
+}
