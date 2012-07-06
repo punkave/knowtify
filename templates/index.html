@@ -2,9 +2,33 @@
 <html>
   <head>
     <title>{title}</title>
+    <link rel="stylesheet/less" type="text/css" href="style/base.less">
+    <script src="script/less.js" type="text/javascript"></script>
   </head>
   <body>
-    <h1>{title}</h1>
-    <div>{if auth}Logged in as <b>{auth.username}</b>. <a href="/logout">Log out</a>{/if}</div>
+    <header>
+      <h1>{title}</h1>
+      <div class="sites">
+        Columns of sites go here.
+      </div>
+      <div>{if auth}Logged in as <b>{auth.username}</b>. <a href="/logout">Log out</a>{/if}</div>
+    </header>
+    <aside>
+      <p>Some things we want to say. Contact us at info@example.com.</p>
+    </aside>
+    <section>
+      <article>
+        <h1>Notification</h1>
+        <p>Words go here.</p>
+      </article>
+      <article>
+        <h1>Notification</h1>
+        <p>Words go here.</p>
+      </article>
+      <article>
+        <h1>Notification</h1>
+        <p>Words go here.</p>
+      </article>
+    </section>
   </body>
 </html>

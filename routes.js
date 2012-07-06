@@ -1,6 +1,9 @@
-var db = require ('./db')
+var db = require('./db')
+var paperboy = require('paperboy')
 var querystring = require('querystring')
 var router = require('choreographer').router()
+
+paperboy.contentTypes.less = 'text/css';
 
 router.get('/', function(req, res) {
   req.session.get('auth', function(err, auth) {
@@ -48,6 +51,14 @@ router.get('/logout', function(req, res) {
     res.writeHead(303, {Location: '/'})
     res.end()
   })
+})
+
+router.get('/**', function(req, res, path) {
+  //console.log(path)
+  paperboy.deliver(__dirname+'/static', req, res)
+    .error(function(stat, msg) {
+      console.log(stat, msg)
+    })
 })
 
 module.exports = function() {
