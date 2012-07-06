@@ -54,7 +54,6 @@ router.get('/logout', function(req, res) {
 })
 
 router.get('/**', function(req, res, path) {
-  //console.log(path)
   paperboy.deliver(__dirname+'/static', req, res)
     .error(function(stat, msg) {
       console.log(stat, msg)
