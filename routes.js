@@ -26,7 +26,7 @@ router.get('/login', function(req, res) {
 })
 
 router.post('/login', function(req, res) {
-  var body = '';
+  var body = ''
   req.setEncoding('utf8')
   req.on('data', function(chunk) {
     body += chunk
