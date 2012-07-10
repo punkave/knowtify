@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>{title}</title>
+    <title>{settings.title}</title>
     <link rel="stylesheet/less" type="text/css" href="style/base.less">
     <script src="script/less.js" type="text/javascript"></script>
   </head>
@@ -11,39 +11,36 @@
         <div class="header-inner">
           <div class="global-status-container warning">
             <div class="global-status">
-              <h1>{title}</h1>
+              <h1>{settings.title}</h1>
             </div>
           </div>
 
           <div class="sites-container">
             <div class="sites">
-              <ul class="site-column">
-                <li class="site warning">Way To Walk</li>
-                <li class="site">Way To Eat</li>
-                <li class="site">Way To Sleep</li>
-                <li class="site">Way To Speak</li>
-              </ul>
-
-              <ul class="site-column">
-                <li class="site">Way To Walk</li>
-                <li class="site">Way To Eat</li>
-                <li class="site">Way To Sleep</li>
-                <li class="site">Way To Speak</li>
-              </ul>
-
-              <ul class="site-column">
-                <li class="site">Way To Walk</li>
-                <li class="site warning">Way To Eat</li>
-                <li class="site">Way To Sleep</li>
-                <li class="site">Way To Speak</li>
-              </ul>
-
-              <ul class="site-column">
-                <li class="site">Way To Walk</li>
-                <li class="site">Way To Eat</li>
-                <li class="site">Way To Sleep</li>
-                <li class="site">Way To Speak</li>
-              </ul>
+              {for column in columns}
+                <ul class="site-column">
+                  {for site in column}
+                    <li class="site{if not site.ok} warning{/if}">{site.name}</li>
+                  {/for}
+                </ul>
+              {else}
+                <ul class="site-column">
+                  <li class="site warning">No sites!</li>
+                  <li class="site">Or, At Least, None</li>
+                </ul>
+                <ul class="site-column">
+                  <li class="site">Returned From</li>
+                  <li class="site warning">{settings.checkUrl}</li>
+                </ul>
+                <ul class="site-column">
+                  <li class="site">Anyway,</li>
+                  <li class="site">You Should</li>
+                </ul>
+                <ul class="site-column">
+                  <li class="site">Get It</li>
+                  <li class="site">Running!</li>
+                </ul>
+              {/for}
             </div>
           </div>
 

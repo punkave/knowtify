@@ -13,10 +13,12 @@
   },
   "dependencies": {
     "choreographer": "git://github.com/gsf/choreographer.git#7c40f3ed1df989f9ad9e04bc87684bd565cdadfd",
+    "bcrypt": "0.7.0",
     "cookies": "0.3.0",
     "keygrip": "0.2.1",
     "paperboy": "0.0.5",
     "redis": "0.7.2",
+    "request": "2.9.203",
     "redsess": "git://github.com/eivindfjeldstad/redsess.git#40ad5c35f025f85158bd364c5551603e91957abb",
     "whiskers": "0.2.3"
   }
