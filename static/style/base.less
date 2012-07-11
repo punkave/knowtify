@@ -183,6 +183,22 @@ body
             line-height: 24px;
             color: @gray-darkest;
 
+            p, ul
+            {
+              margin-bottom: 10px;
+            }
+
+            ul
+            {
+              padding-left: 20px;
+            }
+
+            a
+            {
+              color: @gray-dark;
+              font-style: italic;
+            }
+
           }
         }
 
@@ -210,6 +226,7 @@ body
 
       &.column-right
       {
+        color: @gray-darkest;
         width: 35%;
 
         .info-blurb
@@ -221,7 +238,7 @@ body
 
           a
           {
-            color: @gray-darkest;
+            color: @gray-dark;
             //text-decoration: none;
             font-style: italic;
           }
