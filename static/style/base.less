@@ -60,7 +60,7 @@ body
         position: relative;
         top: 0;
         z-index: 9;
-        min-height: 140px;
+        min-height: 125px;
         background-color:@gray-dark;
         -webkit-box-shadow:0px 5px 8px rgba(0,0,0,0.3);
         .sites
@@ -72,8 +72,8 @@ body
           .site-column
           {
             float: left;
-            width: 22%;
-            margin-right: 3%;
+            max-width: 25%;
+            margin-right: 4%;
             list-style: none;
 
             .site
@@ -86,6 +86,7 @@ body
               background-position: 0px 2px;
               text-indent: 25px;
               letter-spacing: 1px;
+              font-size: 14px;
 
               &.warning
               {
@@ -99,11 +100,29 @@ body
       .admin-bar-container
       {
         background: @gray-darkest;
-        min-height: 30px;
+        min-height: 35px;
         .admin-bar
         {
           width: 960px;
           margin: 0 auto;
+          .user
+          {
+            font-size: 12px;
+            padding-top: 10px;
+            font-style: italic;
+            color: @gray-light;
+            text-align: right;
+
+            a
+            {
+              //font-size: 12px;
+              background: @gray-light;
+              color: @gray-darkest;
+              padding: 4px 5px;
+              text-decoration: none;
+              margin-left: 10px;
+            }
+          }
         }
       }
     }
@@ -175,7 +194,7 @@ body
           {
             margin-bottom: 10px;
           }
-          
+
           textarea
           {
             height: 120px;
@@ -199,6 +218,13 @@ body
           padding: 5%;
           min-height: 200px;
           border: 2px dashed @gray-light;
+
+          a
+          {
+            color: @gray-darkest;
+            //text-decoration: none;
+            font-style: italic;
+          }
         }
       }
     } //column
