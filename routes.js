@@ -45,10 +45,13 @@ router.get('/', function(req, res) {
       return a.name.localeCompare(b.name)
     })
     var columns = [[], [], [], []]
+    var ok = true
     for (var i=0; i<sites.length; i++) {
       columns[Math.floor(i * columns.length / sites.length)].push(sites[i])
+      if (!sites[i].ok) ok = false
     }
     context.columns = columns
+    context.ok = ok
     done()
   })
   req.session.get('auth', function(err, auth) {
