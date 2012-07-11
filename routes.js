@@ -1,6 +1,7 @@
 var auth = require('./auth')
 var db = require('./db')
 var fs = require('fs')
+var moment = require('moment')
 var paperboy = require('paperboy')
 var querystring = require('querystring')
 var request = require('request')
@@ -15,11 +16,22 @@ router.get('/', function(req, res) {
     partials: {},
     settings: settings
   }
-  var pending = 3
+  var pending = 4
   function done() {
     if (!--pending) res.render('index.html', context)
   }
-  fs.readFile('templates/notificaton.html', function(err, data) {
+  db.lrange('knowtify:notifications', 0, 9, function(err, notifications) {
+    notifications = notifications.map(function(str) {
+      var notification = JSON.parse(str)
+      notification.raw = encodeURIComponent(str)
+      notification.time = moment(notification.time).format('MM/DD/YYYY h:mma')
+      return notification
+    })
+    context.notifications = notifications
+    done()
+  })
+  fs.readFile('templates/notification.html', function(err, data) {
+    if (err) util.log(err)
     context.partials.notification = data
     done()
   })
@@ -82,18 +94,41 @@ router.get('/logout', function(req, res) {
   })
 })
 
+router.post('/notification', function(req, res) {
+  getBody(req, function(err, body) {
+    body.time = Date.now()
+    var data = JSON.stringify(body)
+    db.lpush('knowtify:notifications', data, function(err) {
+      if (err) {
+        util.log(err.message)
+        res.writeHead(500)
+        return res.end()
+      }
+      res.writeHead(200, {'Content-Type': 'application/json'})
+      res.end(data)
+    })
+  })
+})
+
+router.delete('/notification', function(req, res) {
+  getBody(req, function(err, body) {
+    db.lrem('knowtify:notifications', 1, body.value, function(err) {
+      if (err) {
+        util.log(err.message)
+        res.writeHead(500)
+        return res.end()
+      }
+      res.writeHead(200, {'Content-Type': 'application/json'})
+      res.end('{"ok": true}')
+    })
+  })
+})
+
 router.put('/user/*', function(req, res, username) {
   getBody(req, function(err, body) {
     auth.create(username, body, function() {
       // TODO admin user management
     })
-  })
-})
-
-router.post('/notification', function(req, res) {
-  getBody(req, function(err, body) {
-    res.writeHead(200, {'Content-Type': 'application/json'})
-    res.end('{"ok": true}')
   })
 })
 

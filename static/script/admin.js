@@ -4,17 +4,15 @@ $(function() {
 
   $('#notification-add').submit(function() {
     var data = $(this).toJSON()
-    data.id = Date.now()
-    console.log(data)
     $.ajax({
       type: 'post',
       url: 'notification',
       data: data,
-      success: function() {
+      success: function(data) {
         $.ajax({
           url: 'templates/notification.html',
           success: function(template) {
-            data.time = moment(data.id).format('MM/DD/YYYY h:mma')
+            data.raw = encodeURIComponent(JSON.stringify(data))
             $(whiskers.render(template, {auth: true, notification: data})).prependTo('#notifications')
           }
         })
@@ -26,7 +24,23 @@ $(function() {
     return false
   })
 
-  $('#notification-delete').submit(function() {
+  $(document).on('submit', '.notification-delete', function() {
+    if (!confirm('Delete this notification?')) return false
+    var raw = decodeURIComponent($(this).find('input[name=notification]').val())
+    var data = {value: raw}
+    var $el = $(this).parents('.notification')
+    console.log($el)
+    $.ajax({
+      type: 'delete',
+      url: 'notification',
+      data: data,
+      success: function() {
+        $el.remove()
+      },
+      error: function(jqXHR, stat, err) {
+        console.error(err)
+      }
+    })
     return false
   })
 })

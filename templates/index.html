@@ -82,30 +82,47 @@
           <div id="notifications">
             {for notification in notifications}
               {>partials.notification}
+            {else}
+              <div class="notification">
+                <div class="notification-header">
+                  <div class="time">6/03/2012 3:59pm</div>
+                  <div class="title">Fax You Later</div>
+                  {if auth}
+                    <div class="trash">
+                      <form class="notification-delete">
+                        <input type="hidden" name="notification" value="">
+                        <input type="submit" value="Delete">
+                      </form>
+                    </div>
+                  {/if}
+                </div>
+
+                <div class="notification-body">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras condimentum commodo arcu, id elementum metus condimentum id. Sed blandit sem facilisis est adipiscing feugiat.</p>
+                </div>
+              </div>
+
+              <div class="notification">
+                <div class="notification-header">
+                  <div class="time">5/13/2012 3:59pm</div>
+                  <div class="title">Fax You Later</div>
+                  {if auth}
+                    <div class="trash">
+                      <form class="notification-delete">
+                        <input type="hidden" name="notification" value="">
+                        <input type="submit" value="Delete">
+                      </form>
+                    </div>
+                  {/if}
+                </div>
+
+                <div class="notification-body">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras condimentum commodo arcu, id elementum metus condimentum id. Sed blandit sem facilisis est adipiscing feugiat.</p>
+                </div>
+              </div>
             {/for}
           </div>
 
-          <div class="notification">
-            <div class="notification-header">
-              <div class="date">12/03/12</div>
-              <div class="title">Fax You Later</div>
-            </div>
-
-            <div class="notification-body">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras condimentum commodo arcu, id elementum metus condimentum id. Sed blandit sem facilisis est adipiscing feugiat.</p>
-            </div>
-          </div>
-
-          <div class="notification">
-            <div class="notification-header">
-              <div class="date">12/03/12</div>
-              <div class="title">Fax You Later</div>
-            </div>
-
-            <div class="notification-body">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras condimentum commodo arcu, id elementum metus condimentum id. Sed blandit sem facilisis est adipiscing feugiat.</p>
-            </div>
-          </div>
         </div>
 
         <div class="column column-right">

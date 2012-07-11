@@ -4,8 +4,8 @@
     <div class="title">{notification.title}</div>
     {if auth}
       <div class="trash">
-        <form id="notification-delete">
-          <input type="hidden" name="id" value="{notification.id}">
+        <form class="notification-delete">
+          <input type="hidden" name="notification" value="{notification.raw}">
           <input type="submit" value="Delete">
         </form>
       </div>
