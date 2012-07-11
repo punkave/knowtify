@@ -4,6 +4,13 @@ $(function() {
 
   $('#notification-add').submit(function() {
     var data = $(this).toJSON()
+
+    // minimal validation
+    if (!data.body || !data.title) return false
+
+    // clear form inputs
+    $(this).find('input[name=title], textarea').val('')
+
     $.ajax({
       type: 'post',
       url: 'notification',
@@ -22,6 +29,7 @@ $(function() {
         console.error(err)
       }
     })
+
     return false
   })
 
