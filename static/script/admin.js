@@ -13,6 +13,7 @@ $(function() {
           url: 'templates/notification.html',
           success: function(template) {
             data.raw = encodeURIComponent(JSON.stringify(data))
+            data.time = moment(data.time).format('MM/DD/YYYY h:mma')
             $(whiskers.render(template, {auth: true, notification: data})).prependTo('#notifications')
           }
         })
