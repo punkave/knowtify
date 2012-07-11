@@ -1,5 +1,6 @@
 var auth = require('./auth')
 var db = require('./db')
+var fs = require('fs')
 var paperboy = require('paperboy')
 var querystring = require('querystring')
 var request = require('request')
@@ -11,12 +12,17 @@ paperboy.contentTypes.less = 'text/css';
 
 router.get('/', function(req, res) {
   var context = {
+    partials: {},
     settings: settings
   }
-  var pending = 2
+  var pending = 3
   function done() {
     if (!--pending) res.render('index.html', context)
   }
+  fs.readFile('templates/notificaton.html', function(err, data) {
+    context.partials.notification = data
+    done()
+  })
   request(settings.checkUrl, function(err, checkRes, body) {
     if (err || checkRes.statusCode != 200) {
       util.log(err)
@@ -54,9 +60,9 @@ router.get('/login', function(req, res) {
 })
 
 router.post('/login', function(req, res) {
-  getBody(req, function(body) {
-    auth.check(body, function(err, user) {
-      if (err) {
+  getBody(req, function(err, body) {
+    auth.check(body, function(authErr, user) {
+      if (authErr) {
         req.session.set('flash', 'Incorrect username or password.')
         res.writeHead(303, {Location: '/login'})
         return res.end()
@@ -70,15 +76,24 @@ router.post('/login', function(req, res) {
 
 router.get('/logout', function(req, res) {
   req.session.del('auth', function (err) {
+    if (err) util.log(err)
     res.writeHead(303, {Location: '/'})
     res.end()
   })
 })
 
 router.put('/user/*', function(req, res, username) {
-  getBody(req, function(body) {
+  getBody(req, function(err, body) {
     auth.create(username, body, function() {
+      // TODO admin user management
     })
+  })
+})
+
+router.post('/notification', function(req, res) {
+  getBody(req, function(err, body) {
+    res.writeHead(200, {'Content-Type': 'application/json'})
+    res.end('{"ok": true}')
   })
 })
 
@@ -95,15 +110,27 @@ module.exports = function() {
 
 function getBody(req, cb) {
   var body = ''
+  var ct = req.headers['content-type']
   req.setEncoding('utf8')
   req.on('data', function(chunk) {body += chunk})
   req.on('end', function() {
-    var parseMap = {
-      'application/x-www-form-urlencoded': querystring.parse,
-      'application/json': JSON.parse,
-      pass: function(body) {return body}
+    var parser, parsers = [
+      {
+        mime: 'application/x-www-form-urlencoded',
+        parse: querystring.parse
+      },
+      {
+        mime: 'application/json',
+        parse: JSON.parse
+      }
+    ]
+    for (var i=0; i<parsers.length; i++) {
+      parser = parsers[i]
+      if (ct.indexOf(parser.mime) != -1) {
+        return cb(null, parser.parse(body))
+      }
     }
-    var ct = req.headers['content-type'] || 'pass'
-    cb(parseMap[ct](body))
+    // if no match just return body
+    cb(null, body)
   })
 }

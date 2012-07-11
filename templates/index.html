@@ -5,7 +5,12 @@
     <link rel="stylesheet/less" href="style/base.less">
     <script src="script/less.js"></script>
     <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-    <script src="script/base.js"></script>
+    <script src="https://raw.github.com/timrwood/moment/1.6.2/min/moment.min.js"></script>
+    {if auth}
+      <script src="https://raw.github.com/macek/jquery-to-json/master/jquery.to_json.js"></script>
+      <script src="https://raw.github.com/gsf/whiskers.js/v0.2.3/dist/whiskers.min.js"></script>
+      <script src="script/admin.js"></script>
+    {/if}
   </head>
   <body>
     <div class="wrapper">
@@ -59,7 +64,8 @@
 
           {if auth}
             <div class="notification-add">
-              <form id="notification-form">
+              <form id="notification-add">
+                <input type="hidden" name="user" value="{auth.username}">
                 <div>
                   <input name="title" class="title" placeholder="title">
                 </div>
@@ -67,21 +73,16 @@
                   <textarea name="body" placeholder="write notification here"></textarea>
                 </div>
                 <div>
-                  <input type="submit">
+                  <input type="submit" value="Add">
                 </div>
               </form>
             </div>
           {/if}
 
-          <div class="notification">
-            <div class="notification-header">
-              <div class="date">12/03/12</div>
-              <div class="title">Fax You Later</div>
-            </div>
-
-            <div class="notification-body">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras condimentum commodo arcu, id elementum metus condimentum id. Sed blandit sem facilisis est adipiscing feugiat..</p>
-            </div>
+          <div id="notifications">
+            {for notification in notifications}
+              {>partials.notification}
+            {/for}
           </div>
 
           <div class="notification">
