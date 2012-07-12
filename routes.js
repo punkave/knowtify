@@ -24,7 +24,8 @@ router.get('/', function(req, res) {
     notifications = notifications.map(function(str) {
       var notification = JSON.parse(str)
       notification.raw = encodeURIComponent(str)
-      notification.time = moment(notification.time).format('MM/DD/YYYY h:mma')
+      // handle conversion in the client
+      //notification.time = moment(notification.time).format('MM/DD/YYYY h:mma')
       return notification
     })
     context.notifications = notifications
