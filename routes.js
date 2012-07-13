@@ -36,7 +36,7 @@ router.get('/', function(req, res) {
     context.partials.notification = data
     done()
   })
-  request(settings.checkUrl, function(err, checkRes, body) {
+  request(settings.monitor, function(err, checkRes, body) {
     if (err || checkRes.statusCode != 200) {
       util.log(err)
       return done()
