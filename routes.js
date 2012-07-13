@@ -38,7 +38,7 @@ router.get('/', function(req, res) {
   })
   request(settings.monitor, function(err, checkRes, body) {
     if (err || checkRes.statusCode != 200) {
-      util.log(err)
+      util.log(err || 'Monitor HTTP code:', checkRes.statusCode)
       return done()
     }
     var sites = JSON.parse(body)
