@@ -7,6 +7,7 @@ var querystring = require('querystring')
 var request = require('request')
 var router = require('choreographer').router()
 var settings = require('./settings')
+var url = require('url')
 var util = require('util')
 
 paperboy.contentTypes.less = 'text/css';
@@ -37,8 +38,12 @@ router.get('/', function(req, res) {
     done()
   })
   request(settings.monitor, function(err, checkRes, body) {
-    if (err || checkRes.statusCode != 200) {
-      util.log(err || 'Monitor HTTP code:', checkRes.statusCode)
+    if (err) {
+      util.log(err.message)
+      return done()
+    }
+    if (checkRes.statusCode != 200) {
+      util.log('Monitor HTTP code:', checkRes.statusCode)
       return done()
     }
     var sites = JSON.parse(body)
@@ -129,10 +134,26 @@ router.delete('/notification', function(req, res) {
 })
 
 router.put('/user/*', function(req, res, username) {
+  var query = url.parse(req.url, true).query
+  if (!query.key || query.key != settings.secret) {
+    res.writeHead(401)
+    return res.end()
+  }
   getBody(req, function(err, body) {
     auth.create(username, body, function() {
       // TODO admin user management
     })
+  })
+})
+
+router.delete('/user/*', function(req, res, username) {
+  var query = url.parse(req.url, true).query
+  if (!query.key || query.key != settings.secret) {
+    res.writeHead(401)
+    return res.end()
+  }
+  auth.delete(username, function() {
+    // TODO admin user management
   })
 })
 
