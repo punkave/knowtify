@@ -1,11 +1,11 @@
 var authority = require('../authority')
-var bodies = require('../bodies')
 var db = require('../db')
 var gather = require('../gather')
+var scalpel = require('scalpel')
 var util = require('util')
 
 module.exports = gather(
-  bodies, 
+  scalpel, 
   authority, 
   function(req, res) {
     req.body.time = Date.now()

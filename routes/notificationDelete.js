@@ -1,11 +1,11 @@
+var authority = require('../authority')
 var db = require('../db')
 var gather = require('../gather')
-var bodies = require('../bodies')
-var authority = require('../authority')
+var scalpel = require('scalpel')
 var util = require('util')
 
 module.exports = gather(
-  bodies,
+  scalpel,
   authority,
   function(req, res) {
     db.lrem('knowtify:notifications', 1, req.body.value, function(err) {

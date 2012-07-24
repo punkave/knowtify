@@ -19,6 +19,7 @@
     "redis": "0.7.2",
     "request": "2.9.203",
     "redsess": "git://github.com/eivindfjeldstad/redsess.git#40ad5c35f025f85158bd364c5551603e91957abb",
+    "scalpel": "0.0.2",
     "send": "0.0.3",
     "whiskers": "0.2.3"
   }

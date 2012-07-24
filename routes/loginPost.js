@@ -1,8 +1,8 @@
-var bodies = require('../bodies')
+var scalpel = require('scalpel')
 var settings = require('../settings')
 
 module.exports = function(req, res) {
-  bodies(req, res, function() {
+  scalpel(req, res, function() {
     if (req.body.username == settings.username && 
         req.body.password == settings.password) {
       req.session.set('auth', req.body)
