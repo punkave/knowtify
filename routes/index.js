@@ -1,11 +1,11 @@
 var db = require('../db')
 var fs = require('fs')
-var gather = require('../gather')
+var pile = require('../pile')
 var request = require('request')
 var settings = require('../settings')
 var util = require('util')
 
-module.exports = gather(
+module.exports = pile(
   function(req, res, cb) {
     db.lrange('knowtify:notifications', 0, 9, function(err, notifications) {
       notifications = notifications.map(function(str) {

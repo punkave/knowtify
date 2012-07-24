@@ -1,10 +1,10 @@
 var authority = require('../authority')
 var db = require('../db')
-var gather = require('../gather')
+var pile = require('../pile')
 var scalpel = require('scalpel')
 var util = require('util')
 
-module.exports = gather(
+module.exports = pile(
   scalpel,
   authority,
   function(req, res) {
