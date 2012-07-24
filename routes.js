@@ -1,4 +1,3 @@
-var auth = require('./auth')
 var db = require('./db')
 var fs = require('fs')
 var moment = require('moment')
@@ -82,16 +81,14 @@ router.get('/login', function(req, res) {
 
 router.post('/login', function(req, res) {
   getBody(req, function(err, body) {
-    auth.check(body, function(authErr, user) {
-      if (authErr) {
-        req.session.set('flash', 'Incorrect username or password.')
-        res.writeHead(303, {Location: '/login'})
-        return res.end()
-      }
-      req.session.set('auth', user)
+    if (body.username == settings.username && body.password == settings.password) {
+      req.session.set('auth', body)
       res.writeHead(303, {Location: '/'})
-      res.end()
-    })
+    } else {
+      req.session.set('flash', 'Incorrect username or password.')
+      res.writeHead(303, {Location: '/login'})
+    }
+    res.end()
   })
 })
 
@@ -130,30 +127,6 @@ router.delete('/notification', function(req, res) {
       res.writeHead(200, {'Content-Type': 'application/json'})
       res.end('{"ok": true}')
     })
-  })
-})
-
-router.put('/user/*', function(req, res, username) {
-  var query = url.parse(req.url, true).query
-  if (!query.key || query.key != settings.secret) {
-    res.writeHead(401)
-    return res.end()
-  }
-  getBody(req, function(err, body) {
-    auth.create(username, body, function() {
-      // TODO admin user management
-    })
-  })
-})
-
-router.delete('/user/*', function(req, res, username) {
-  var query = url.parse(req.url, true).query
-  if (!query.key || query.key != settings.secret) {
-    res.writeHead(401)
-    return res.end()
-  }
-  auth.delete(username, function() {
-    // TODO admin user management
   })
 })
 

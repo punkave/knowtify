@@ -32,11 +32,6 @@ http.createServer(function(req, res) {
     })
   }
     
-  // TODO figure out how to populate req.auth
-  //req.session.get('auth', function (err, auth) {
-  //  if (err) throw err
-  //  req.auth = auth
-
   routes(req, res)
 }).listen(port, function() {
   console.log('Listening on '+port)

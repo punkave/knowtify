@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "choreographer": "git://github.com/gsf/choreographer.git#7c40f3ed1df989f9ad9e04bc87684bd565cdadfd",
-    "bcrypt": "0.7.0",
     "cookies": "0.3.0",
     "keygrip": "0.2.1",
     "moment": "1.6.2",
