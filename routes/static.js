@@ -1,12 +1,6 @@
 var dirname = require('path').dirname
-var paperboy = require('paperboy')
-var util = require('util')
-
-paperboy.contentTypes.less = 'text/css';
+var send = require('send')
 
 module.exports = function(req, res, path) {
-  paperboy.deliver(dirname(__dirname)+'/static', req, res)
-  .error(function(stat, msg) {
-    util.log(msg)
-  })
+  send(req, path).from(dirname(__dirname)+'/static').pipe(res)
 }
