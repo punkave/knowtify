@@ -2,7 +2,7 @@
   "name": "knowtify",
   "version": "0.0.0",
   "description": "A status site",
-  "homepage": "https://github.com/punkave/knowtify.git",
+  "homepage": "https://github.com/punkave/knowtify",
   "engines": {
     "node": "0.8.1",
     "npm": "1.1.1"
