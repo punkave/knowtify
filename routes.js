@@ -38,7 +38,7 @@ router.get('/', function(req, res) {
   })
   request(settings.monitor, function(err, checkRes, body) {
     if (err) {
-      util.log(err.message)
+      util.log(err)
       return done()
     }
     if (checkRes.statusCode != 200) {
@@ -60,6 +60,7 @@ router.get('/', function(req, res) {
     done()
   })
   req.session.get('auth', function(err, auth) {
+    if (err) util.log(err)
     context.auth = auth
     done()
   })
@@ -102,31 +103,47 @@ router.get('/logout', function(req, res) {
 
 router.post('/notification', function(req, res) {
   getBody(req, function(err, body) {
-    body.time = Date.now()
-    var data = JSON.stringify(body)
-    db.lpush('knowtify:notifications', data, function(err) {
-      if (err) {
-        util.log(err.message)
-        res.writeHead(500)
-        return res.end()
-      }
-      res.writeHead(200, {'Content-Type': 'application/json'})
-      res.end(data)
+    req.session.get('auth', function(err, auth) {
+      if (err) util.log(err)
+      if (auth) return addNote()
+      res.writeHead(401)
+      res.end()
     })
+    function addNote() {
+      body.time = Date.now()
+      var data = JSON.stringify(body)
+      db.lpush('knowtify:notifications', data, function(err) {
+        if (err) {
+          util.log(err)
+          res.writeHead(500)
+          return res.end()
+        }
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.end(data)
+      })
+    }
   })
 })
 
 router.delete('/notification', function(req, res) {
   getBody(req, function(err, body) {
-    db.lrem('knowtify:notifications', 1, body.value, function(err) {
-      if (err) {
-        util.log(err.message)
-        res.writeHead(500)
-        return res.end()
-      }
-      res.writeHead(200, {'Content-Type': 'application/json'})
-      res.end('{"ok": true}')
+    req.session.get('auth', function(err, auth) {
+      if (err) util.log(err)
+      if (auth) return deleteNote()
+      res.writeHead(401)
+      res.end()
     })
+    function deleteNote() {
+      db.lrem('knowtify:notifications', 1, body.value, function(err) {
+        if (err) {
+          util.log(err)
+          res.writeHead(500)
+          return res.end()
+        }
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.end('{"ok": true}')
+      })
+    }
   })
 })
 
@@ -146,6 +163,7 @@ function getBody(req, cb) {
   var ct = req.headers['content-type']
   req.setEncoding('utf8')
   req.on('data', function(chunk) {body += chunk})
+  req.on('error', function(err) {cb(err)})
   req.on('end', function() {
     var parser, parsers = [
       {
