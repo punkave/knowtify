@@ -1,9 +1,7 @@
-var bcrypt = require('bcrypt')
-var db = require('./db')
+var settings = require('./settings')
 
 exports.check = function(user, cb) {
-  // TODO check the db
-  if (user.username == 'admin') {
+  if (user.username == settings.username && user.password == settings.password) {
     cb(null, user)
   } else {
     cb(new Error('Not found'))
