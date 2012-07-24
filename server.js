@@ -3,7 +3,7 @@ var fs = require('fs')
 var http = require('http')
 var keygrip = require('keygrip')
 var RedSess = require('redsess')
-var routes = require('./routes')
+var router = require('./router')
 var whiskers = require('whiskers')
 var url = require('url')
 
@@ -24,15 +24,16 @@ http.createServer(function(req, res) {
   req.cookies = res.cookies = new Cookies(req, res, keys)
   req.session = res.session = new RedSess(req, res)
 
-  res.render = function(filename, context) {
+  res.context = {}
+  res.render = function(filename) {
     fs.readFile('templates/'+filename, function(err, template) {
       if (err) throw err
       res.writeHead(200, {'Content-Type': 'text/html'})
-      res.end(whiskers.render(template, context))
+      res.end(whiskers.render(template, res.context))
     })
   }
     
-  routes(req, res)
+  router(req, res)
 }).listen(port, function() {
   console.log('Listening on '+port)
 })
