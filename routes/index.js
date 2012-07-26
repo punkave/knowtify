@@ -1,6 +1,6 @@
 var db = require('../db')
 var fs = require('fs')
-var pile = require('../pile')
+var pile = require('pile')
 var request = require('request')
 var settings = require('../settings')
 var util = require('util')

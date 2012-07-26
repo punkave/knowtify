@@ -1,6 +1,6 @@
 var authority = require('../authority')
 var db = require('../db')
-var pile = require('../pile')
+var pile = require('pile')
 var scalpel = require('scalpel')
 var util = require('util')
 
