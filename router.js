@@ -1,11 +1,12 @@
-var router = require('choreographer').router()
+var rut = require('rut')
+var stack = require('stack')
 
-router.get('/', require('./routes'))
-router.get('/login', require('./routes/login'))
-router.post('/login', require('./routes/loginPost'))
-router.get('/logout', require('./routes/logout'))
-router.post('/notification', require('./routes/notificationAdd'))
-router.delete('/notification', require('./routes/notificationDelete'))
-router.get('/**', require('./routes/static'))
-
-module.exports = router
+module.exports = stack(
+  rut('/', require('./routes')),
+  rut.get('/login', require('./routes/login')),
+  rut.post('/login', require('./routes/loginPost')),
+  rut('/logout', require('./routes/logout')),
+  rut.post('/notification', require('./routes/notificationAdd')),
+  rut.delete('/notification', require('./routes/notificationDelete')),
+  rut.get('/**', require('./routes/static'))
+)

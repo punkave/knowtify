@@ -1,9 +1,10 @@
-var Cookies = require('cookies')
+var cookies = require('cookies')
 var fs = require('fs')
 var http = require('http')
 var keygrip = require('keygrip')
 var RedSess = require('redsess')
 var router = require('./router')
+var stack = require('stack')
 var whiskers = require('whiskers')
 var url = require('url')
 
@@ -20,10 +21,21 @@ var redisOptions = redisUrl && {
 }
 RedSess.createClient(redisOptions)
 
-http.createServer(function(req, res) {
-  req.cookies = res.cookies = new Cookies(req, res, keys)
-  req.session = res.session = new RedSess(req, res)
+http.createServer(stack(
+  cookies.connect(keys),
+  redsess,
+  rend,
+  router
+)).listen(port, function() {
+  console.log('Listening on '+port)
+})
 
+function redsess(req, res, next) {
+  req.session = res.session = new RedSess(req, res)
+  next()
+}
+
+function rend(req, res, next) {
   res.context = {}
   res.render = function(filename) {
     fs.readFile('templates/'+filename, function(err, template) {
@@ -32,8 +44,5 @@ http.createServer(function(req, res) {
       res.end(whiskers.render(template, res.context))
     })
   }
-    
-  router(req, res)
-}).listen(port, function() {
-  console.log('Listening on '+port)
-})
+  next()
+}
