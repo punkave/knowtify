@@ -3,7 +3,7 @@ $(function() {
   var whiskers = window.whiskers
 
   $('#notification-add').submit(function() {
-    var data = $(this).toJSON()
+    var data = $(this).serializeObject()
 
     // minimal validation
     if (!data.body || !data.title) return false
